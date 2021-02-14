@@ -201,7 +201,7 @@
             }
             
             return `<td class='game_td'>
-                        <input id=cellId_${playerId}_${itemId} ${tabIndexAttr} class='nmb_input ${color} ${disabledCss}' type='number' maxlength='${size}' size='${size}' ${isAutoField} ${attributes} next-step=${order}>
+                        <input id=cellId_${playerId}_${itemId} ${tabIndexAttr} class='nmb_input ${color} ${disabledCss}' type='number' pattern="[0-9]*" maxlength='${size}' size='${size}' ${isAutoField} ${attributes} next-step=${order}>
                     </td>`;
         }
 
