@@ -44,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="w100 pTop10 alignCenter">
+                        <div class="w100 selectModeContainer alignCenter">
                             <div id="addPlayerContainerId" class="flex pTop10 itemAlignCenter flex" style="flex-direction: column;">
                                 <div class="flex pTop10 itemAlignCenter" style="height: 70px">
                                     <input type="button" value="Jedan igrac" class="single--player--button"style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
