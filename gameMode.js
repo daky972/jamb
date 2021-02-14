@@ -87,7 +87,7 @@
                             </div>
                         </div>
 
-                        <div class="w100 selectModeContainer alignCenter">
+                        <div class="w100 pTop10 alignCenter">
 
                             <div class='flex pTop10'>
                                 <span style='font-size: 1.3rem;'>Sa kockicom</span>
