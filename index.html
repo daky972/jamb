@@ -1,0 +1,245 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <head>
+        <style>
+            .textSize_4 {
+                font-size: 4rem;
+            }
+            .nmb_input {
+                width: 60px;
+                height: 25px;
+            }
+
+            td {
+                text-align: center;    
+            }
+
+            input {
+                text-align: center;
+            }
+
+            input:focus {
+                background: aliceblue;
+                border: 1px solid cornflowerblue;
+            }
+
+            /* Colors */
+            .rowColor {
+                background: cornflowerblue;
+            }
+
+            .container {
+                width: 500px;
+                position: relative;
+                left: 0;
+                left: 50%;
+                -webkit-transform: translateX(-50%);
+                    -ms-transform: translateX(-50%);
+                        transform: translateX(-50%);
+            }
+
+            .gameTable {
+                font-size: 1.3rem;
+                width: 90%;
+                margin-left: 5%;
+            }
+
+            .w100 {
+                width: 100%;   
+            }
+
+            .w90 {
+                width: 90%;
+            }
+
+            .w40 {
+                width: 40%;
+            }
+
+            .alignCenter {
+                text-align: center;
+            }
+
+            .alignLeft {
+                text-align: left;
+            }
+
+            .alignRight {
+                text-align: right;
+            }
+
+            .itemAlignCenter {
+                -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+            }
+
+            .itemAlignStart {
+                -webkit-box-pack: start;
+                    -ms-flex-pack: start;
+                        justify-content: start;
+            }
+
+            .pTop10 {
+                padding-top: 10px;
+            }
+
+            .disabled {
+                pointer-events: none;
+                cursor: not-allowed;
+                opacity: 0.25;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            @media screen and (max-width: 520px) {
+                .container {
+                    width: 374px;
+                    padding-top: 50px;
+                    top: 40%;
+                }
+
+                .game_td {
+                    padding: 0;
+                    margin: 0;
+                    width: 35px;
+                }
+
+                .nmb_input {
+                    width: 35px;
+                }
+
+                body {
+                    height: 100vw;
+                    padding-top: 50px;
+                }
+            }
+
+            @media screen and (max-width: 320px) {
+                .container {
+                    width: 320px;
+                    padding-top: 50px;
+                    top: 40% !important;
+                }
+
+                .gameTab {
+                    margin-top: 40%;
+                }
+
+                .game_td {
+                    padding: 0;
+                    margin: 0;
+                    width: 40px;
+                }
+
+                .nmb_input {
+                    width: 40px;
+                    height: 24px;
+                }
+
+                .gameTable {
+                    font-size: 1rem;
+                    width: 100%;
+                    margin-left: 0;
+                }
+            }
+
+            .flex {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+            }
+
+            .containerCenter {
+                top: 50%;
+                left: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                    -ms-transform: translate(-50%, -50%);
+                        transform: translate(-50%, -50%);
+            }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            .switch input { 
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                -o-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                -o-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #6ebcff;
+            }
+
+            input:focus + .slider {
+                -webkit-box-shadow: 0 0 1px #6ebcff;
+                        box-shadow: 0 0 1px #6ebcff;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+
+            .mediumText {
+                font-size: 1.3rem;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div id="gameStepId" class="container containerCenter">
+        </div>
+        
+        <script src="homepage.js"></script>
+        <script src="gameMode.js"></script>
+        <script src="multiplayer.js"></script>
+        <script src="gameOver.js"></script>
+        <script src="gameController.js"></script>
+
+    </body>
+</html>
