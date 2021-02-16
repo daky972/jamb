@@ -124,6 +124,10 @@
                 .selectModeContainer {
                     padding-top: 60px;
                 }
+                
+                .diceDialog {
+                    transform: scale(0.5);
+                }
             }
 
             @media screen and (max-width: 320px) {
@@ -156,6 +160,10 @@
                     font-size: 0.8rem;
                     width: 100%;
                     margin-left: 0;
+                }
+                
+                .diceDialog {
+                    transform: scale(0.5);
                 }
             }
 
@@ -248,14 +256,154 @@
             input[type=number] {
               -moz-appearance: textfield;
             }
+
+
+            /* Dice */
+        .dice-container {
+            width: 100px;
+            height: 100px;
+            margin: 80px;
+            perspective: 400px;
+            align-items: center;
+        }
+
+        .dice-wrapper {
+            width: 100px;
+            height: 100px;
+            display: grid;
+            transform-style: preserve-3d;
+            transition-timing-function: cubic-bezier(0.43, -0.66, 0.46, 2.01);
+            transition-duration: 1s;
+            justify-self: center;
+        }
+
+        .dot {
+            width: 80%;
+            height: 80%;
+            margin: 10%;
+            border-radius: 50%;
+            background-color: #676767;
+            box-shadow: inset -0.15rem 0.15rem 0.25rem rgb(0 0 0 / 50%);
+        }
+
+        .dice-face {
+            display: grid;
+            grid-row: 1;
+            grid-column: 1;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-areas: "one   two   three" 
+                                 "four  five  six"
+                                 "seven eight nine";
+            
+            border: 2px solid #676767;
+            border-radius: 2px;
+            background-color: white;
+        }
+
+        [dice-number='1'] {
+            grid-area: one;
+        }
+
+        [dice-number='2'] {
+            grid-area: two;
+        }
+
+        [dice-number='3'] {
+            grid-area: three;
+        }
+
+        [dice-number='4'] {
+            grid-area: four;
+        }
+
+        [dice-number='5'] {
+            grid-area: five;
+        }
+        
+        [dice-number='6'] {
+            grid-area: six;
+        }
+
+        [dice-number='7'] {
+            grid-area: seven;
+        }
+
+        [dice-number='8'] {
+            grid-area: eigth;
+        }
+
+        [dice-number='9'] {
+            grid-area: nine;
+        }
+
+        [dice-value='1'] {
+            transform: rotate3d(0, 0, 0, 90deg);
+        }
+
+        [dice-value='2'] {
+            transform: rotateY(90deg) translateZ(50px) translateX(50px);
+        }
+
+        [dice-value='3'] {
+            transform: rotateX(90deg) translateZ(50px) translateY(-50px);
+        }
+
+        [dice-value='4'] {
+            transform: rotateX(90deg) translateZ(-50px) translateY(-50px);
+        }
+
+        [dice-value='5'] {
+            transform: rotateY(90deg) translateZ(-50px) translateX(50px);
+        }
+
+        [dice-value='6'] {
+            transform: translateZ(-100px);
+        }
+
+        .diceDialog {
+            background-color: antiquewhite;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            padding-top: 50px;
+            margin: 0;
+            opacity: 0.9;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-areas: "d1 d2" "d3 d4" "d5 d6";
+        }
+
+        .diceDialog [dice-order='1'] {
+            grid-area: d1;
+        }
+        .diceDialog [dice-order='2'] {
+            grid-area: d2;
+        }
+        .diceDialog [dice-order='3'] {
+            grid-area: d3;
+        }
+        .diceDialog [dice-order='4'] {
+            grid-area: d4;
+        }
+        .diceDialog [dice-order='5'] {
+            grid-area: d5;
+        }
+        .diceDialog [dice-order='6'] {
+            grid-area: d6;
+        }
         </style>
     </head>
 
     <body>
 
-        <div id="gameStepId" class="container containerCenter">
+        <div class="container containerCenter">
+            <div id="gameStepId"></div>
+            <div id="dialogId" class="hide" style="background-color: antiquewhite; width: 100%; height: 100%; position: absolute; top: 0; opacity: 0.9;"></div>
         </div>
         
+        <script src="diceDialog.js"></script>
         <script src="homepage.js"></script>
         <script src="gameMode.js"></script>
         <script src="multiplayer.js"></script>

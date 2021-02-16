@@ -6,6 +6,8 @@
             this.containerId = 'gameStepId';
             this.currentPage = null;
             this.showHomepage();
+
+            this.diceContainer = new DiceDialog(this, 'dialogId', {diceNumber: 6});
         }
 
         GameController.prototype.showHomepage = function(){
