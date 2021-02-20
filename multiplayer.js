@@ -90,8 +90,16 @@
         }
 
         Multiplayer.prototype.keyUpEventHandler = function(event) {
+
+            target = event.target
+
             if (event.keyCode == 13 || event.code == 'Enter') {
                 this.enterNumber();
+                return;
+            }
+
+            if (target.closest('.nmb_input') && isNaN(Number(event.key))) {
+                target.value = ''
                 return;
             }
         }
