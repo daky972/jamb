@@ -103,14 +103,16 @@
             body {
                 margin: 0;
                 padding: 0;
-                /* padding-top: 50px; */
-                margin-top: 100px;
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                /* margin-top: 100px;
                 max-height: 800px;
                 min-height: 700px;
                 position: absolute;
                 display: block;
                 height: 100%;
-                width: 100%;
+                width: 100%; */
             }
 
             @media screen and (min-width: 720px) {
@@ -122,8 +124,7 @@
             @media screen and (max-width: 520px) {
                 .container {
                     width: 355px;
-                    padding-top: 50px;
-                    top: 40%;
+                    /* top: 40%; */
                 }
 
                 .game_td {
@@ -136,20 +137,6 @@
                     width: 35px;
                 }
 
-                /* body {
-                    /* height: 100vw;
-                    width: 100vw;
-                    margin: 0;
-                    margin-top: 50px; */
-                    position: absolute;
-                    margin: 0;
-                    padding: 0;
-                    display: block;
-                    height: 100%;
-                    /* padding-top: 50px; */
-                    width: 100%;
-                } */
-                
                 .selectModeContainer {
                     padding-top: 60px;
                 }
@@ -162,8 +149,7 @@
             @media screen and (max-width: 320px) {
                 .container {
                     width: 300px;
-                    padding-top: 50px;
-                    top: 40% !important;
+                    /* top: 40% !important; */
                 }
 
                 .gameTab {
@@ -191,6 +177,9 @@
                     /* transform: scale(0.5); */
                 }
             }
+
+            .container 
+
 
             .flex {
                 display: -webkit-box;
@@ -453,7 +442,7 @@
 
     <body>
 
-        <div class="container containerCenter">
+        <div class="container ">
             <div id="viewId" class="view" view-type="game">
                 <div id="gameStepId" view-name="game"></div>
                 <div id="dialogId" view-name="dialog"></div>
