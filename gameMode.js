@@ -91,12 +91,12 @@
 
                             <div class='flex pTop10'>
                                 <span style='font-size: 1.3rem;'>Sa kockicom</span>
-                            <div style='padding-left: 10px;'>
-                                <label class="switch">
-                                    <input id='diceId' type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
+                                <div style='padding-left: 10px;'>
+                                    <label class="switch">
+                                        <input id='diceId' type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
 
                             <div id="addPlayerContainerId" class="flex pTop10 itemAlignCenter flex" style="flex-direction: column;">

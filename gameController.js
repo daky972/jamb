@@ -74,6 +74,10 @@
         }
 
 
+        GameController.prototype.gameRulesButtonClicked =  function() {
+            this.currentPage = new RulesDialog(this, this.containerId)
+        }
+
         return GameController;
     })();
 

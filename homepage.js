@@ -28,6 +28,11 @@
                 this.parentContext.multiPlayerButtonClicked();
                 return;
             }
+
+            if (element.closest('.game--rules--button')) {
+                this.parentContext.gameRulesButtonClicked();
+                return;
+            }
         }
 
         Homepage.prototype.getHTML = function() {
@@ -50,11 +55,14 @@
                                     <input type="button" value="Jedan igrac" class="single--player--button"style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                                 </div>
                                 <div class="flex pTop10 itemAlignCenter" style="height: 70px">
-                                    <input type="button" min="2" value="Vise igraca" class="multi--player--button" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
+                                    <input type="button" value="Vise igraca" class="multi--player--button" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
+                                </div>
+                                <div class="flex pTop10 itemAlignCenter" style="height: 70px">
+                                    <input type="button" value="Pravila igre" class="game--rules--button" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                                 </div>
                             </div>
                         </div>
-                    </div>`;
+                    </div>`
         }
 
         return Homepage;

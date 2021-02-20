@@ -13,6 +13,7 @@
             this.parentContext = parentContext;
             this.containerId = containerId;
             isMultiplayer = data.playerNames.length > 1;
+            includeDice = false
 
             document.getElementById(containerId).innerHTML = this.getHTML();
 
@@ -36,6 +37,8 @@
 
             this.createPlayers(data.playerNames);
             this.focusCurrentCell();
+
+            diceDialog = new DiceDialog(this, 'dialogId', {diceNumber: 6});
         }
 
         Multiplayer.prototype.destroy = function(){
@@ -69,6 +72,12 @@
                 return;
             }
 
+            target = event.target
+            if (target.closest('.play--with--dice')) {
+                this.includeDiceChanged(target.checked)
+                return;
+            }
+
             previousSelectedInputId = players[currentPlayerId].table[currentCellId].id;
 
             currentCellId = this.getId(event.target);
@@ -95,6 +104,15 @@
                 this.enterNumber();
                 return;
             }
+
+            if (element.closest('#throwDiceId')) {
+                this.openDiceDialog();
+                return;
+            }
+        }
+
+        Multiplayer.prototype.openDiceDialog = function() {
+            diceDialog.show()
         }
 
         // ------------------------------------------------------------
@@ -127,18 +145,21 @@
         }
 
         Multiplayer.prototype.createRowHeaders = function(player) {
-            hideClass = player.id == 0 ? '' : 'hide';
-            table = `<div id="player_${player.id}" class="${hideClass}">
-                        <div style="height: 30px; padding-top: 30px; font-size: 2rem; display: block; padding-bottom: 30px;">
-                            <span style="display: block; text-align: center;">
-                                ${player.name}
-                            </span>
-                        </div>
-                        <table class='gameTable'>`;
+
+            table = ''
+            if (isMultiplayer) {
+                hideClass = player.id == 0 ? '' : 'hide';
+                table = `<div id="player_${player.id}" class="${hideClass}">
+                            <div style="height: 30px; padding-top: 30px; font-size: 2rem; display: block; padding-bottom: 30px;">
+                                <span style="display: block; text-align: center;">
+                                    ${player.name}
+                                </span>
+                            </div>`;
+            }
 
             columnHeaderIndex = 0;
 
-            table += "<tr><td class='game_td'>JAMB</td><td class='game_td'>↓</td><td class='game_td'>↕</td><td class='game_td'>↑</td><td class='game_td'>N</td><td class='game_td'>R</td><td class='game_td'>D</td></tr>";
+            table += "<table class='gameTable'><tr><td class='game_td'>JAMB</td><td class='game_td'>↓</td><td class='game_td'>↕</td><td class='game_td'>↑</td><td class='game_td'>N</td><td class='game_td'>R</td><td class='game_td'>D</td></tr>";
             for (rowIndex = 0; rowIndex < MAX_ROW; rowIndex++) {
                 table += `<tr><td class='game_td'>${rowHeaders[rowIndex]}</td>`;
                 table += this._getRowHTML(rowIndex, player.id);
@@ -488,7 +509,17 @@
         }
 
 
+        Multiplayer.prototype.includeDiceChanged = function(includeDice) {
+            includeDice = includeDice
 
+            if (includeDice) {
+                document.querySelector(".include--dice[include-dice='false']").classList.add('hide')
+                document.querySelector(".include--dice[include-dice='true']").classList.remove('hide')
+            } else {
+                document.querySelector(".include--dice[include-dice='false']").classList.remove('hide')
+                document.querySelector(".include--dice[include-dice='true']").classList.add('hide')
+            }
+        }
 
 
 
@@ -497,14 +528,24 @@
         // ------------------------------------------------------------
         Multiplayer.prototype.getHTML = function() {
             return `<div class='gameTab'>
+                        <div class='flex pTop10'>
+                            <span style='font-size: 1.3rem;'>Sa kockicom</span>
+                            <div style='padding-left: 10px;'>
+                                <label class="switch">
+                                    <input class='play--with--dice' type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
                         <div id="gameTablesId" class="w100">
                         </div>
 
                         <div class="flex w100 pTop10 itemAlignCenter">
-                            <div id="addPlayerContainerId" class="flex pTop10 w90" style="flex-direction: column;">
-                                <div class="flex pTop10 itemAlignCenter" style="height: 70px">
-                                    <input id="enterButtonId" class="w40" type="button" tabindex=-1 value="Potvrdi potez" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
-                                </div>
+                            <div class="flex pTop10 itemAlignCenter include--dice" include-dice='false' style="height: 70px">
+                                <input id="enterButtonId" class="w40" type="button" tabindex=-1 value="Potvrdi potez" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
+                            </div>
+                            <div class="flex pTop10 itemAlignCenter include--dice hide" include-dice='true' style="height: 70px">
+                                <input id="throwDiceId" class="w40" type="button" tabindex=-1 value="Baci kocke" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                             </div>
                         </div>
                     </div>`;
