@@ -15,7 +15,8 @@
             isMultiplayer = data.playerNames.length > 1;
             includeDice = false
 
-            document.getElementById(containerId).innerHTML = this.getHTML();
+            this.container = document.getElementById(containerId)
+            this.container.innerHTML = this.getHTML();
 
             players = [];
             currentPlayerId = 0;
@@ -31,9 +32,10 @@
             this.inputChangeEvent = this.inputChangeEventHandler.bind(this);
             this.keyUpEvent = this.keyUpEventHandler.bind(this);
             this.clickEvent = this.clickEventHandler.bind(this);
-            document.addEventListener("change", this.inputChangeEvent);
-            document.addEventListener("keyup", this.keyUpEvent);
-            document.addEventListener("click", this.clickEvent);
+          
+            this.container.addEventListener("change", this.inputChangeEvent);
+            this.container.addEventListener("keyup", this.keyUpEvent);
+            this.container.addEventListener("click", this.clickEvent);
 
             this.createPlayers(data.playerNames);
             this.focusCurrentCell();
@@ -59,9 +61,9 @@
         }
 
         Multiplayer.prototype.removeEvents = function(){
-            document.removeEventListener("change", this.inputChangeEvent);
-            document.removeEventListener("keyup", this.keyUpEvent);
-            document.removeEventListener("click", this.clickEvent);
+            this.container.removeEventListener("change", this.inputChangeEvent);
+            this.container.removeEventListener("keyup", this.keyUpEvent);
+            this.container.removeEventListener("click", this.clickEvent);
         }
         // ------------------------------------------------------------
         // Event handlers
@@ -549,10 +551,10 @@
                         </div>
 
                         <div class="flex w100 pTop10 itemAlignCenter">
-                            <div class="flex pTop10 itemAlignCenter include--dice" include-dice='false' style="height: 70px">
+                            <div class="flex pTop10 itemAlignCenter include--dice" include-dice='false' style="height: 50px">
                                 <input id="enterButtonId" class="w40" type="button" tabindex=-1 value="Potvrdi potez" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                             </div>
-                            <div class="flex pTop10 itemAlignCenter include--dice hide" include-dice='true' style="height: 70px">
+                            <div class="flex pTop10 itemAlignCenter include--dice hide" include-dice='true' style="height: 50px">
                                 <input id="throwDiceId" class="w40" type="button" tabindex=-1 value="Baci kocke" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                             </div>
                         </div>

@@ -16,7 +16,7 @@
             }
 
             td {
-                text-align: center;    
+                text-align: center;
             }
 
             input {
@@ -277,7 +277,8 @@
             width: 60px;
             height: 60px;
             margin: 80px;
-            perspective: 400px;
+            perspective-origin: top;
+            perspective: 600px;
             align-items: center;
             overflow: hidden;
         }
@@ -292,6 +293,9 @@
             justify-self: center;
         }
 
+        .dice-wrapper.selected .dice-face {
+            border: 2px solid #8ac6fa;
+        }
         .dice-animation {
             transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
             transition-duration: 1s;
@@ -321,42 +325,42 @@
             background-color: white;
         }
 
-        [dice-number='1'] {
+        [dot-number='1'] {
             grid-area: one;
         }
 
-        [dice-number='2'] {
+        [dot-number='2'] {
             grid-area: two;
         }
 
-        [dice-number='3'] {
+        [dot-number='3'] {
             grid-area: three;
         }
 
-        [dice-number='4'] {
+        [dot-number='4'] {
             grid-area: four;
         }
 
-        [dice-number='5'] {
+        [dot-number='5'] {
             grid-area: five;
         }
         
-        [dice-number='6'] {
+        [dot-number='6'] {
             grid-area: six;
         }
 
-        [dice-number='7'] {
+        [dot-number='7'] {
             grid-area: seven;
         }
 
-        [dice-number='8'] {
+        [dot-number='8'] {
             grid-area: eigth;
         }
 
-        [dice-number='9'] {
+        [dot-number='9'] {
             grid-area: nine;
         }
-
+/* 
         [dice-value='1'] {
             transform: rotate3d(0, 0, 0, 90deg);
         }
@@ -379,20 +383,27 @@
 
         [dice-value='6'] {
             transform: translateZ(-60px);
-        }
+        } */
 
         .diceDialog {
             background-color: antiquewhite;
             width: 100%;
             height: 100%;
-            position: absolute;
-            padding-top: 50px;
+            position: relative;
+            /* padding-top: 50px; */
             margin: 0;
             opacity: 0.9;
             /* display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(3, 1fr);
             grid-template-areas: "d1 d2" "d3 d4" "d5 d6"; */
+        }
+
+        .dicePositions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-areas: "d1 d2" "d3 d4" "d5 d6";
         }
 
         .diceDialog [dice-order='1'] {
@@ -437,6 +448,170 @@
             border-radius: 50px;
             font-size: 18px;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+            1
+        */
+        [dice-selected-number='1'] [dice-value='2'] {
+            transform: rotateY(90deg) translateZ(30px) translateX(30px);
+        }
+
+        [dice-selected-number='1'] [dice-value='3'] {
+            transform: rotateX(90deg) translateZ(30px) translateY(-30px);
+        }
+
+        [dice-selected-number='1'] [dice-value='4'] {
+            transform: rotateX(90deg) translateZ(-30px) translateY(-30px);
+        }
+
+        [dice-selected-number='1'] [dice-value='5'] {
+            transform: rotateY(90deg) translateZ(-30px) translateX(30px);
+        }
+
+        [dice-selected-number='1'] [dice-value='6'] {
+            transform: translateZ(-60px);
+        }
+
+
+        /*
+            2
+        */
+        [dice-selected-number='2'] [dice-value='1'] {
+            transform: rotateY(-90deg) translateX(-30px) translateZ(-30px);
+        }
+
+        [dice-selected-number='2'] [dice-value='3'] {
+            transform: rotateX(-90deg) translateZ(-30px) translateY(30px);
+        }
+
+        [dice-selected-number='2'] [dice-value='4'] {
+            transform: rotateX(-90deg) translateZ(30px) translateY(30px);
+        }
+
+        [dice-selected-number='2'] [dice-value='5'] {
+            transform: translateZ(-60px)
+        }
+
+        [dice-selected-number='2'] [dice-value='6'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(-30px);
+        }
+
+
+        /*
+            3
+        */
+        [dice-selected-number='3'] [dice-value='1'] {
+            transform: rotateX(90deg) translateY(-30px) translateZ(30px);
+        }
+
+        [dice-selected-number='3'] [dice-value='2'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(-30px);
+        }
+
+        [dice-selected-number='3'] [dice-value='4'] {
+            transform: translateZ(-60px);
+        }
+
+        [dice-selected-number='3'] [dice-value='5'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(30px);
+        }
+
+        [dice-selected-number='3'] [dice-value='6'] {
+            transform: rotateX(90deg) translateY(-30px) translateZ(-30px);
+        }
+
+
+        /*
+            4
+        */
+        [dice-selected-number='4'] [dice-value='1'] {
+            transform: rotateX(90deg) translateZ(-30px) translateY(-30px);
+        }
+
+        [dice-selected-number='4'] [dice-value='2'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(-30px);
+        }
+
+        [dice-selected-number='4'] [dice-value='3'] {
+            transform: translateZ(-60px);
+        }
+
+        [dice-selected-number='4'] [dice-value='5'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(30px);
+        }
+
+        [dice-selected-number='4'] [dice-value='6'] {
+            transform: rotateX(90deg) translateY(-30px) translateZ(30px);
+        }
+
+
+        /*
+            5
+        */
+        [dice-selected-number='5'] [dice-value='1'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(30px);
+        }
+
+        [dice-selected-number='5'] [dice-value='2'] {
+            transform: translateZ(-60px);
+        }
+
+        [dice-selected-number='5'] [dice-value='3'] {
+            transform: rotateX(90deg) translateY(-30px) translateZ(30px);
+        }
+
+        [dice-selected-number='5'] [dice-value='4'] {
+            transform: rotateX(90deg) translateY(-30px) translateZ(-30px);
+        }
+
+        [dice-selected-number='5'] [dice-value='6'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(-30px);
+        }
+
+
+
+        /*
+            6
+        */
+        [dice-selected-number='6'] [dice-value='1'] {
+            transform: translateZ(-60px);
+        }
+
+        [dice-selected-number='6'] [dice-value='2'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(-30px);
+        }
+
+        [dice-selected-number='6'] [dice-value='3'] {
+            transform: rotateX(-90deg) translateY(30px) translateZ(-30px);
+        }
+
+        [dice-selected-number='6'] [dice-value='4'] {
+            transform: rotateX(90deg) translateY(-30px) translateZ(-30px);
+        }
+
+        [dice-selected-number='6'] [dice-value='5'] {
+            transform: rotateY(90deg) translateX(30px) translateZ(30px);
+        }
+
         </style>
     </head>
 

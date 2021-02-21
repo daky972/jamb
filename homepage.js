@@ -7,12 +7,12 @@
             this.container = document.getElementById(containerId);
 
             this.container.innerHTML = this.getHTML();
-            document.addEventListener('click', this.clickEventHandler.bind(this));
+            this.container.addEventListener('click', this.clickEventHandler.bind(this));
         }
 
 
         Homepage.prototype.destroy = function() {
-            document.removeEventListener('click', this.clickEventHandler);
+            this.container.removeEventListener('click', this.clickEventHandler);
         }
 
         Homepage.prototype.clickEventHandler = function(event) {
@@ -51,13 +51,13 @@
 
                         <div class="w100 selectModeContainer alignCenter">
                             <div id="addPlayerContainerId" class="flex pTop10 itemAlignCenter flex" style="flex-direction: column;">
-                                <div class="flex pTop10 itemAlignCenter" style="height: 70px">
+                                <div class="flex pTop10 itemAlignCenter" style="height: 50px">
                                     <input type="button" value="Jedan igrac" class="single--player--button"style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                                 </div>
-                                <div class="flex pTop10 itemAlignCenter" style="height: 70px">
+                                <div class="flex pTop10 itemAlignCenter" style="height: 50px">
                                     <input type="button" value="Vise igraca" class="multi--player--button" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                                 </div>
-                                <div class="flex pTop10 itemAlignCenter" style="height: 70px">
+                                <div class="flex pTop10 itemAlignCenter" style="height: 50px">
                                     <input type="button" value="Pravila igre" class="game--rules--button" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                                 </div>
                             </div>

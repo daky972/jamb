@@ -4,13 +4,14 @@
 
         function GameOver(parentContext, containerId, data) {
             this.parentContext = parentContext;
-            document.getElementById(containerId).innerHTML = this.getHTML(data);
+            this.container = document.getElementById(containerId).innerHTML
+            this.container = this.getHTML(data)
 
-            document.addEventListener('click', this.clickEventHandler.bind(this));
+            this.container.addEventListener('click', this.clickEventHandler.bind(this));
         }
 
         GameOver.prototype.destroy = function() {
-            document.removeEventListener('click', this.clickEventHandler.bind(this));
+            this.container.removeEventListener('click', this.clickEventHandler.bind(this));
         }
 
         GameOver.prototype.clickEventHandler = function(event) {
@@ -52,7 +53,7 @@
 
                         <div class="w100 pTop10 alignCenter">
                             ${html}
-                            <div style=" text-align: center; height: 70px; padding-top: 50px;">
+                            <div style=" text-align: center; height: 50px; padding-top: 50px;">
                                 <input type="button" class='start--new--game' value="Zapocni igru" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                             </div>
                         </div>

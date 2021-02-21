@@ -8,12 +8,12 @@
             this.container = document.getElementById(containerId);
             this.container.innerHTML = this.getHTML();
 
-            document.addEventListener('click', this.clickEventHandler.bind(this));
+            this.container.addEventListener('click', this.clickEventHandler.bind(this));
         }
 
         GameMode.prototype.destroy = function() {
             delete playerIndex;
-            document.removeEventListener('click', this.clickEventHandler);
+            this.container.removeEventListener('click', this.clickEventHandler);
         }
 
         GameMode.prototype.clickEventHandler = function(event) {
