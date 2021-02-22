@@ -26,7 +26,7 @@
 
         RulesDialog.prototype._getHTML = function() {
             return `<div>
-                        <div style='height:10%;'>
+                        <div>
                             <input class='exitButton exit--button' type='button' value='X'>
                         </div>
 
