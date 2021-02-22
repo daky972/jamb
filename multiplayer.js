@@ -44,20 +44,29 @@
         }
 
         Multiplayer.prototype.destroy = function(){
-            delete players;
-            delete currentPlayerId;
-            delete tabIndex;
-            delete playerIndex;
 
-            delete lastEditedCell;
-            delete previousSelectedInputId;
-            delete currentEditedInput;
-            delete currentCellId;
-            delete processing;
+            this.removeEvents()
 
-            delete this.inputChangeEvent;
-            delete this.keyUpEvent;
-            delete this.clickEvent;
+            delete players
+            delete currentPlayerId
+            delete tabIndex
+            delete playerIndex
+
+            delete lastEditedCell
+            delete previousSelectedInputId
+            delete currentEditedInput
+            delete currentCellId
+            delete processing
+
+            delete isMultiplayer
+            delete includeDice
+
+            delete this.container
+
+            delete this.inputChangeEvent
+            delete this.keyUpEvent
+            delete this.clickEvent
+
         }
 
         Multiplayer.prototype.removeEvents = function(){
@@ -118,6 +127,11 @@
             if (element.closest('#throwDiceId')) {
                 this.openDiceDialog();
                 return;
+            }
+            
+            if (element.closest('.exit--button')) {
+                this.parentContext.backToHomePage()
+                return
             }
         }
 
@@ -537,7 +551,11 @@
         // GUI
         // ------------------------------------------------------------
         Multiplayer.prototype.getHTML = function() {
-            return `<div class='gameTab'>
+            return `
+                    <div>
+                        <input class='exitButton exit--button' type='button' value='X'>
+                    </div>
+                    <div class='gameTab'>
                         <div class='flex pTop10'>
                             <span style='font-size: 1.3rem;'>Sa kockicom</span>
                             <div style='padding-left: 10px;'>

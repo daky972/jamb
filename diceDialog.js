@@ -84,10 +84,8 @@
 
             this.moveToNeutral()
 
-            document.addEventListener('keyup', this.rollDiceF.bind(this));
-
-            clickEvent = this.clickEventHandler.bind(this)
-            this.container.addEventListener('click', clickEvent)
+            // this.clickEvent = this.clickEventHandler.bind(this)
+            // this.container.addEventListener('click', this.clickEvent)
         }
 
         DiceDialog.prototype.show = function() {
@@ -99,8 +97,9 @@
         }
 
         DiceDialog.prototype.destroy = function() {
-            this.container.removeEventListener('click', clickEventHandler)
-            delete clickEvent
+            this.container.removeEventListener('click', this.clickEventHandler)
+            delete this.clickEvent
+            delete this.rollDice
         }
 
         DiceDialog.prototype.clickEventHandler = function(event) {
@@ -455,22 +454,6 @@
                             </div>
                         </div>
                     </div>`
-        }
-
-        DiceDialog.prototype.rollDiceF = function(event) {
-            
-            window.alert(event.key)
-            return
-
-            if (event.key == 'n') {
-                this.moveToNeutral()
-            }
-
-            if (event.key != 'x') {
-                return;
-            }
-
-            this.roll()
         }
 
         DiceDialog.prototype.moveToNeutral = function() {

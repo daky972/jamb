@@ -8,12 +8,17 @@
             this.container = document.getElementById(containerId);
             this.container.innerHTML = this.getHTML();
 
-            this.container.addEventListener('click', this.clickEventHandler.bind(this));
+            clickEvent = this.clickEventHandler.bind(this)
+            this.container.addEventListener('click', clickEvent)
         }
 
         GameMode.prototype.destroy = function() {
-            delete playerIndex;
-            this.container.removeEventListener('click', this.clickEventHandler);
+            delete playerIndex
+            this.container.removeEventListener('click', clickEvent)
+            clickEvent = null
+            clickEventHandler = null
+
+            delete this.container
         }
 
         GameMode.prototype.clickEventHandler = function(event) {
@@ -30,8 +35,15 @@
                 return;
             }
 
+            if (element.closest('.exit--button')) {
+                this.parentContext.backToHomePage()
+                return
+            }
+
             if (element.closest('.start--game--button')) {
+                event.preventDefault()
                 this.parentContext.startMultiPlayerButtonClicked(this.getPageInfo());
+                return
             }
         }
 
@@ -70,6 +82,10 @@
 
         GameMode.prototype.getHTML = function() {
             return `<div>
+                        <div>
+                            <input class='exitButton exit--button' type='button' value='X'>
+                        </div>
+                        
                         <div class="w100 pTop10 alignCenter">
                             <span class="textSize_4">Jamb</span>
                             <div style=" position: relative; padding-bottom: 50px;">

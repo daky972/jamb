@@ -7,11 +7,13 @@
             this.container = document.getElementById(containerId).innerHTML
             this.container = this.getHTML(data)
 
-            this.container.addEventListener('click', this.clickEventHandler.bind(this));
+            this.clickEvent = this.clickEventHandler.bind(this)
+            this.container.addEventListener('click', this.clickEvent)
         }
 
         GameOver.prototype.destroy = function() {
-            this.container.removeEventListener('click', this.clickEventHandler.bind(this));
+            this.container.removeEventListener('click', this.clickEvent)
+            delete this.clickEvent
         }
 
         GameOver.prototype.clickEventHandler = function(event) {

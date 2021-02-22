@@ -6,19 +6,6 @@
             this.containerId = 'gameStepId';
             this.currentPage = null;
             this.showHomepage();
-
-            this.beforeUnloadEvent = this.beforeUnloadEventHandler.bind(this)
-            document.addEventListener('onbeforeunload', this.beforeUnloadEvent)
-        }
-
-        GameController.prototype.beforeUnloadEventHandler = function(event) {
-            event.preventDefault()
-            this.goBack()
-        }
-
-        GameController.prototype.goBack = function() {
-            this.currentPage.destroy()
-            this.showHomepage()
         }
 
         GameController.prototype.showHomepage = function(){
@@ -86,7 +73,7 @@
             this.currentPage = new RulesDialog(this, this.containerId)
         }
 
-        GameController.prototype.exitRulesDialog = function() {
+        GameController.prototype.backToHomePage = function() {
             this.currentPage.destroy()
             this.showHomepage()
         }

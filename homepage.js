@@ -7,12 +7,13 @@
             this.container = document.getElementById(containerId);
 
             this.container.innerHTML = this.getHTML();
-            this.container.addEventListener('click', this.clickEventHandler.bind(this));
+            this.clickEvent = this.clickEventHandler.bind(this)
+            this.container.addEventListener('click', this.clickEvent)
         }
 
-
         Homepage.prototype.destroy = function() {
-            this.container.removeEventListener('click', this.clickEventHandler);
+            this.container.removeEventListener('click', this.clickEvent)
+            delete this.clickEvent
         }
 
         Homepage.prototype.clickEventHandler = function(event) {
