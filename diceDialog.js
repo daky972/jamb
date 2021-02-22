@@ -446,7 +446,7 @@
                                         <input class="throw--dice--button" type="button" tabindex=-1 value="Baci" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                                     </div>
                                     <div class="flex pTop10 w40 itemAlignCenter include--dice" include-dice='false' style="height: 50px">
-                                        <input class="enter--result" type="button" tabindex=-1 value="Upisi 0" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
+                                        <input class="enter--result" type="button" tabindex=-1 value="Upiši 0" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                                     </div>
                                 </div>
                             </div>
