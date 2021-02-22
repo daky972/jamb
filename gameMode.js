@@ -8,13 +8,13 @@
             this.container = document.getElementById(containerId);
             this.container.innerHTML = this.getHTML();
 
-            clickEvent = this.clickEventHandler.bind(this)
-            this.container.addEventListener('click', clickEvent)
+            this.clickEvent = this.clickEventHandler.bind(this)
+            this.container.addEventListener('click', this.clickEvent)
         }
 
         GameMode.prototype.destroy = function() {
             delete playerIndex
-            this.container.removeEventListener('click', clickEvent)
+            this.container.removeEventListener('click', this.clickEvent)
             clickEvent = null
             clickEventHandler = null
 

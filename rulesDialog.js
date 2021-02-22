@@ -6,8 +6,8 @@
             this.container = document.getElementById(containerId)
             this.container.innerHTML = this._getHTML()
 
-            // this.clickEvent = this.clickEventHandler.bind(this)
-            // this.container.addEventListener('click', this.clickEvent)
+            this.clickEvent = this.clickEventHandler.bind(this)
+            this.container.addEventListener('click', this.clickEvent)
         }
 
         RulesDialog.prototype.destroy = function() {

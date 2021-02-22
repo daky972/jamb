@@ -84,8 +84,8 @@
 
             this.moveToNeutral()
 
-            // this.clickEvent = this.clickEventHandler.bind(this)
-            // this.container.addEventListener('click', this.clickEvent)
+            this.clickEvent = this.clickEventHandler.bind(this)
+            this.container.addEventListener('click', this.clickEvent)
         }
 
         DiceDialog.prototype.show = function() {
@@ -97,7 +97,7 @@
         }
 
         DiceDialog.prototype.destroy = function() {
-            this.container.removeEventListener('click', this.clickEventHandler)
+            this.container.removeEventListener('click', this.clickEvent)
             delete this.clickEvent
             delete this.rollDice
         }
