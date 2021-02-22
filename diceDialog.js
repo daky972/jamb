@@ -184,12 +184,10 @@
 
 
         DiceDialog.prototype.getHTML = function() {
-            return `<div class='dice-container diceDialog'>
-
-                        <div style='height:10%;'>
-                            <input class='exitButton exit--button' type='button' value='X'>
-                        </div>
-
+            return `<div>
+                        <input class='exitButton exit--button' type='button' value='X'>
+                    </div>
+                    <div class='dice-container diceDialog'>
                         <div class='dicePositions dice--container' style='height:70%;'>
 
                             <div class='dice-wrapper dice-animation' dice-order='1'>
@@ -434,7 +432,7 @@
                             </div>
                         </div>
                         <div>
-                            <div class="flex w100 pTop10 itemAlignCenter" style="background-color: antiquewhite;
+                            <div class="flex w100 pTop10 itemAlignCenter";
                             width: 100%;
                             height: 100%;
                             position: relative;
