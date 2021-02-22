@@ -2,16 +2,34 @@
     this.RulesDialog = (function() {
 
         function RulesDialog(parentContext, containerId) {
-            this.parentContext = parentContext;
+            this.parentContext = parentContext
             this.container = document.getElementById(containerId)
-            this.container.innerHTML = this._getHTML();
+            this.container.innerHTML = this._getHTML()
+
+            this.clickEvent = this.clickEventHandler.bind(this)
+            this.container.addEventListener('click', this.clickEvent)
         }
 
         RulesDialog.prototype.destroy = function() {
+            this.container.removeEventListener('click', this.clickEvent)
+            delete this.clickEvent
+        }
+
+        RulesDialog.prototype.clickEventHandler = function(event) {
+            target = event.target
+
+            if (target.closest('.exit--button')) {
+                this.parentContext.exitRulesDialog()
+                return
+            }
         }
 
         RulesDialog.prototype._getHTML = function() {
             return `<div>
+                        <div style='height:10%;'>
+                            <input class='exitButton exit--button' type='button' value='X'>
+                        </div>
+
                         <div class='pTop10'>
                             <h2>Ukratko o igri</h2>
                             <span>Svaki put kada ste na potezu, možete baciti kockice do 3 puta kako bi dobili što bolji rezultat za upis u neko od polja devet mogućih kolona. Nakon što ste završili sa bacanjem kockica, morate upisati rezultat ili nulu u jedno od raspoloživih. Igra se završava kada sva polja budu popunjena. Igrač koji na kraju bude imao veći rezultat je pobednik igre.</span>

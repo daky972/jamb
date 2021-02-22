@@ -76,6 +76,11 @@
             this.currentPage = new RulesDialog(this, this.containerId)
         }
 
+        GameController.prototype.exitRulesDialog = function() {
+            this.currentPage.destroy()
+            this.showHomepage()
+        }
+
         return GameController;
     })();
 

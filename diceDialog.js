@@ -84,7 +84,7 @@
 
             this.moveToNeutral()
 
-            // document.addEventListener('keyup', this.rollDiceF.bind(this));
+            document.addEventListener('keyup', this.rollDiceF.bind(this));
 
             clickEvent = this.clickEventHandler.bind(this)
             this.container.addEventListener('click', clickEvent)
@@ -458,6 +458,9 @@
         }
 
         DiceDialog.prototype.rollDiceF = function(event) {
+            
+            window.alert(event.key)
+            return
 
             if (event.key == 'n') {
                 this.moveToNeutral()
