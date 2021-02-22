@@ -18,10 +18,7 @@
         // ------------------------------------------------------------
         GameController.prototype.singlePlayerButtonClicked = function() {
             this.currentPage.destroy();
-            this.startSinglePlayerGame({
-                playerNames: [''],
-                dice: false
-            });
+            this.startSinglePlayerGame(['']);
         }
 
         GameController.prototype.multiPlayerButtonClicked = function(data) {

@@ -65,12 +65,7 @@
                 playerNames[i] = playerNameInputs[i].value.trim() == '' ? playerNameInputs[i].getAttribute('placeholder') : playerNameInputs[i].value.trim();
             }
 
-            includeDice = document.getElementById('diceId').checked;
-
-            return {
-                playerNames: playerNames,
-                dice: includeDice
-            };
+            return playerNames
         }
 
         GameMode.prototype.getHTML = function() {
@@ -88,17 +83,6 @@
                         </div>
 
                         <div class="w100 pTop10 alignCenter">
-
-                            <div class='flex pTop10'>
-                                <span style='font-size: 1.3rem;'>Sa kockicom</span>
-                                <div style='padding-left: 10px;'>
-                                    <label class="switch">
-                                        <input id='diceId' type="checkbox">
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-
                             <div id="addPlayerContainerId" class="flex pTop10 itemAlignCenter flex" style="flex-direction: column;">
                                 <div class="add--player flex pTop10 itemAlignCenter">
                                     <input type="text" min="2" placeholder="Igrac 1" class="player--name--input" style=" width: 90%; position: relative; height: 50px; font-size: 1.3rem;">

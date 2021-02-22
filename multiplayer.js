@@ -9,10 +9,10 @@
         rowHeaders = [1, 2, 3, 4, 5, 6, 'Σ', 'Max', 'Min', 'Σ', 'Kenta', 'Triling', 'Ful', 'Kare', 'Jamb', 'Σ']
         columnHeaders = ['↓', '↕', '↑', 'N', 'R', 'D']
 
-        function Multiplayer(parentContext, containerId, data) {
+        function Multiplayer(parentContext, containerId, playerNames) {
             this.parentContext = parentContext;
             this.containerId = containerId;
-            isMultiplayer = data.playerNames.length > 1;
+            isMultiplayer = playerNames.length > 1;
             includeDice = false
 
             this.container = document.getElementById(containerId)
@@ -37,7 +37,7 @@
             this.container.addEventListener("keyup", this.keyUpEvent);
             this.container.addEventListener("click", this.clickEvent);
 
-            this.createPlayers(data.playerNames);
+            this.createPlayers(playerNames);
             this.focusCurrentCell();
 
             diceDialog = new DiceDialog(this, 'dialogId', {diceNumber: 6});
