@@ -280,7 +280,7 @@
             height: 60px;
             margin: 80px;
             perspective-origin: top;
-            perspective: 600px;
+            perspective: 800px;
             align-items: center;
             overflow: hidden;
         }
@@ -296,11 +296,15 @@
         }
 
         .dice-wrapper.selected .dice-face {
-            border: 2px solid #8ac6fa;
+            border: 2px solid #0cea1d;
         }
         .dice-animation {
             transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
             transition-duration: 1s;
+        }
+
+        .dice-before-animation {
+            transform: translateY(1000px);
         }
 
         .dot {

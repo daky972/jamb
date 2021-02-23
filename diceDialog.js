@@ -138,37 +138,34 @@
 
             diceContainerWidth = document.getElementsByClassName('dice--container')[0].offsetHeight
 
-            for (i = 0; i < this.rollDice.length; i++) {
-                
-                // rh = Math.floor(Math.random() * (maxOffsetHeight - minOffsetHeight + 1) + minOffsetHeight + (i * offsetPerDice))
-                // rw = Math.floor(Math.random() * (maxOffsetHeight - minOffsetWidth) + minOffsetHeight)
-                // el = document.querySelector(`.dice-wrapper[dice-order='${i + 1}']`)
-                // el.setAttribute('dice-value', Math.floor(Math.random() * 6 + 1))
 
+            diceElements = document.getElementsByClassName('dice-wrapper')
 
-                el = document.querySelector(`.dice-wrapper[dice-order='${i + 1}']`)
-                
-                number = Math.floor(Math.random() * 6 + 1)
-                rotationType = Math.floor(Math.random(0, rotations[number].length) * rotations[number].length);
+            setTimeout(() => {
+                for (i = 0; i < diceElements.length; i++) {
+                    if (diceElements[i].classList.contains('selected')) {
+                        continue
+                    }
+                    diceElements[i].classList.add('dice-before-animation')
+                }    
+            }, 100);
+            
 
+            setTimeout(() => {
+                for (i = 0; i < diceElements.length; i++) {
+                    if (diceElements[i].classList.contains('selected')) {
+                        continue
+                    }
+    
+                    number = Math.floor(Math.random() * 6 + 1)
+                    rotationType = Math.floor(Math.random(0, rotations[number].length) * rotations[number].length);
+    
+                    diceElements[i].classList.remove('dice-before-animation')
+                    diceElements[i].setAttribute('dice-selected-number', number)
+                    diceElements[i].style.transform = ''
+                }    
+            }, 1500);
 
-                el.setAttribute('dice-selected-number', number)
-                // el.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`
-
-                
-                
-
-                el.style.transform = ``
-                // rotationZ = Math.floor(Math.random() * 360)
-                // positionY = i * (-100)
-                // el.style.transform = `translateX(${rw}px) translateY(${positionY}px) rotateZ(${rotationZ}deg)`
-                
-                
-                
-                // number = Math.floor(Math.random() * 6 + 1)
-                // rotationType = Math.floor(Math.random(0, ROTATIONS[number].length) * ROTATIONS[number].length);
-                // el.style.transform = ROTATIONS[number][rotationType]
-            }
         }
 
 
