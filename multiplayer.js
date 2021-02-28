@@ -10,10 +10,16 @@
         columnHeaders = ['↓', '↕', '↑', 'N', 'R', 'D']
 
         function Multiplayer(parentContext, containerId, playerNames) {
+
+            if (parentContext == null) {
+                // test mode
+                return;
+            }
+
             this.parentContext = parentContext;
             this.containerId = containerId;
             isMultiplayer = playerNames.length > 1;
-            includeDice = false
+            this.includeDice = false
 
             this.container = document.getElementById(containerId)
             this.container.innerHTML = this.getHTML();
@@ -26,7 +32,7 @@
             lastEditedCell = null;
             previousSelectedInputId = null;
             currentEditedInput = null;
-            currentCellId = 0;
+            this.currentCellId = 0;
             processing = false;
 
             this.inputChangeEvent = this.inputChangeEventHandler.bind(this);
@@ -55,11 +61,11 @@
             delete lastEditedCell
             delete previousSelectedInputId
             delete currentEditedInput
-            delete currentCellId
+            delete this.currentCellId
             delete processing
 
             delete isMultiplayer
-            delete includeDice
+            delete this.includeDice
 
             delete this.container
 
@@ -89,13 +95,13 @@
                 return;
             }
 
-            previousSelectedInputId = players[currentPlayerId].table[currentCellId].id;
+            previousSelectedInputId = this.getSelectedCell().id;
 
-            currentCellId = this.getId(event.target);
+            this.currentCellId = this.getCellId(event.target);
 
             if (players[currentPlayerId].lastFocusedCellId != null) {
-                if (players[currentPlayerId].lastFocusedCellId != players[currentPlayerId].table[currentCellId].id) {
-                    document.getElementById(this.createId(previousSelectedInputId)).value = '';
+                if (players[currentPlayerId].lastFocusedCellId != this.getSelectedCell().id) {
+                    document.getElementById(this.createCellId(previousSelectedInputId)).value = '';
                 }
             }
         }
@@ -132,6 +138,10 @@
             if (element.closest('.exit--button')) {
                 this.parentContext.backToHomePage()
                 return
+            }
+
+            if (element.closest('.avaliable-input') && this.includeDice) {
+                this.currentCellId = this.getCellId(element)
             }
         }
 
@@ -235,7 +245,10 @@
                 processed: false,
                 value: null,
                 order: order,
-                score: 0
+                score: 0,
+                disabled: disabled,
+                rowName: rowHeaders[rowIndex],
+                columnName: columnHeaders[columnIndex]
             }
 
             if (isSum) {
@@ -274,13 +287,18 @@
 
             processing = true;
             
-            input = this.getCurrentPlayerItem(currentCellId).value.trim();
-            if (input == '' || isNaN(Number(input)) || Number(input) < 0) {
+            input = this.getCurrentPlayerItem(this.currentCellId).value.trim()
+
+            if (this.includeDice) {
+                input = this.getCurrentPlayerItem(this.currentCellId).getAttribute('placeholder')
+                this.getCurrentPlayerItem(this.currentCellId).value = input
+
+            } else if (input == '' || isNaN(Number(input)) || Number(input) < 0) {
                 processing = false;
                 return;
             }
 
-            players[currentPlayerId].table[currentCellId].value = Number(input);
+            this.getSelectedCell().value = Number(input);
             lastEditedCellHolder = input;
             this.disableCurrentCell();
 
@@ -294,7 +312,7 @@
                 this.enableCurrentCell();
                 this.focusCurrentCell();
                 lastEditedCell = lastEditedCellHolder;
-                players[currentPlayerId].table[currentCellId].nextCell = nextCell;
+                this.getSelectedCell().nextCell = nextCell;
             } else {
                 players[currentPlayerId].finishedGame = true;
                 
@@ -305,6 +323,12 @@
                 }
             }
 
+            if (this.includeDice) {
+                this.clearSuggestedValues()
+                this.setRollDiceButton()
+                this.enableRollDiceToggleButton()
+            }
+
             if (isMultiplayer) {
                 this.currentPlayerEndTurn();
             }
@@ -313,15 +337,16 @@
         }
 
         Multiplayer.prototype.disableCurrentCell = function() {
-            players[currentPlayerId].table[currentCellId].processed = true;
-            item = this.getCurrentPlayerItem(currentCellId);
+            this.getSelectedCell().processed = true;
+            this.getSelectedCell().disabled = false;
+            item = this.getCurrentPlayerItem(this.currentCellId);
             item.classList.add('disabled');
             item.classList.remove('avaliable-input');
             item.setAttribute('disabled', true);
         }
 
         Multiplayer.prototype.getCurrentPlayerItem = function(itemId) {
-            return document.getElementById(this.createId(players[currentPlayerId].table[itemId].id));
+            return document.getElementById(this.createCellId(players[currentPlayerId].table[itemId].id));
         }
 
         Multiplayer.prototype.addToCurrentPlayerSum = function(sum) {
@@ -339,7 +364,7 @@
 
                 while (start >= end) {
                     if (!players[currentPlayerId].table[start].processed && !players[currentPlayerId].table[start].isSum) {
-                        currentCellId = start;
+                        this.currentCellId = start;
                         return players[currentPlayerId].table[start].id;
                     }
                     start--;
@@ -351,7 +376,7 @@
 
             while (start <= end) {
                 if (!players[currentPlayerId].table[start].processed && !players[currentPlayerId].table[start].isSum) {
-                    currentCellId = start;
+                    this.currentCellId = start;
                     return players[currentPlayerId].table[start].id;
                 }
                 start++;
@@ -361,10 +386,10 @@
         }
 
         Multiplayer.prototype.selectNextCell = function() {
-            order = players[currentPlayerId].table[currentCellId].order;
+            order = this.getSelectedCell().order;
 
             nextCellId = null;
-            currentColumnIndex = Math.floor(currentCellId / MAX_ROW);
+            currentColumnIndex = Math.floor(this.currentCellId / MAX_ROW);
             originalCurrentIndex = currentColumnIndex;
             while (currentColumnIndex < MAX_COL && nextCellId == null) {
                 nextCellId = this.getNextInColumn(currentColumnIndex++);
@@ -381,36 +406,36 @@
                 return null;
             }
 
-            currentCellId = nextCellId;
+            this.currentCellId = nextCellId;
             return players[currentPlayerId].table[nextCellId];
         }
 
-        Multiplayer.prototype.getId = function(element) {
+        Multiplayer.prototype.getCellId = function(element) {
             return Number(element.id.replace(`cellId_${currentPlayerId}_`, ''));
         }
 
-        Multiplayer.prototype.createId = function(id) {
+        Multiplayer.prototype.createCellId = function(id) {
             return `cellId_${currentPlayerId}_${id}`;
         }
 
         Multiplayer.prototype.focusCurrentCell = function() {
-            this.getCurrentPlayerItem(currentCellId).focus();
-            players[currentPlayerId].lastFocusedCellId = currentCellId;
+            this.getCurrentPlayerItem(this.currentCellId).focus();
+            players[currentPlayerId].lastFocusedCellId = this.currentCellId;
         }
 
         Multiplayer.prototype.isCurrentCellSum = function() {
-            return players[currentPlayerId].table[currentCellId].isSum;
+            return this.getSelectedCell().isSum;
         }
 
         Multiplayer.prototype.enableCurrentCell = function() {
-            item = this.getCurrentPlayerItem(currentCellId);
+            item = this.getCurrentPlayerItem(this.currentCellId);
             item.removeAttribute('disabled');
             item.classList.add('avaliable-input');
             item.classList.remove('disabled');
         }
 
         Multiplayer.prototype.calculateFirstSum = function() {
-            firstCellIndex = Math.floor(currentCellId / MAX_ROW) * MAX_ROW;
+            firstCellIndex = Math.floor(this.currentCellId / MAX_ROW) * MAX_ROW;
             resultIndex =  firstCellIndex + SUM_ROW_INDEICES[0];
 
             if (players[currentPlayerId].table[resultIndex].processed) {
@@ -434,7 +459,7 @@
 
 
         Multiplayer.prototype.calculateSecondSum = function() {
-            firstCellIndex = Math.floor(currentCellId / MAX_ROW) * MAX_ROW;
+            firstCellIndex = Math.floor(this.currentCellId / MAX_ROW) * MAX_ROW;
             resultIndex = firstCellIndex + SUM_ROW_INDEICES[1];
             
             firstSumIndex = firstCellIndex + SUM_ROW_INDEICES[0];
@@ -462,7 +487,7 @@
         }
 
         Multiplayer.prototype.calculateThirdSum = function() {
-            firstCellIndex = Math.floor(currentCellId / MAX_ROW) * MAX_ROW;
+            firstCellIndex = Math.floor(this.currentCellId / MAX_ROW) * MAX_ROW;
             resultIndex =  firstCellIndex + SUM_ROW_INDEICES[2];
 
             if (players[currentPlayerId].table[resultIndex].processed) {
@@ -516,7 +541,7 @@
             this.hideCurrentPlayerTable();
             this.selectNextPlayer();
             this.showCurrentPlayerTable();
-            currentCellId = players[currentPlayerId].lastFocusedCellId;
+            this.currentCellId = players[currentPlayerId].lastFocusedCellId;
             this.focusCurrentCell();
         }
 
@@ -534,17 +559,248 @@
 
 
         Multiplayer.prototype.includeDiceChanged = function(includeDice) {
-            includeDice = includeDice
+            this.includeDice = includeDice
 
-            if (includeDice) {
-                document.querySelector(".include--dice[include-dice='false']").classList.add('hide')
-                document.querySelector(".include--dice[include-dice='true']").classList.remove('hide')
+            if (this.includeDice) {
+                this.setRollDiceButton()
             } else {
-                document.querySelector(".include--dice[include-dice='false']").classList.remove('hide')
-                document.querySelector(".include--dice[include-dice='true']").classList.add('hide')
+                this.setEnterValueButton()
             }
         }
 
+        Multiplayer.prototype.diceDialogResult = function(diceDialogResult) {
+            console.log(diceDialogResult)
+            this.suggestResults(diceDialogResult)
+            this.disableRollDiceToggleButton()
+            this.setEnterValueButton()
+        }
+
+        // ------------------------------------------------------------
+        // Dice calculations
+        // ------------------------------------------------------------
+        Multiplayer.prototype.suggestResults = function(result) {
+            table = this.getCurrentPlayer().table
+            keys = Object.keys(table)
+            for (let i = 0; i < keys.length; i++) {
+                cellItem = table[keys[i]]
+                suggestedValue = this.getSuggestedValueForCell(cellItem, result)
+                if (suggestedValue != null) {
+                    document.getElementById(this.createCellId(cellItem.id)).setAttribute('placeholder', suggestedValue)
+                }
+            }
+        }
+
+        Multiplayer.prototype.clearSuggestedValues = function() {
+            for (i = 0; i < keys.length; i++) {
+                document.getElementById(this.createCellId(table[keys[i]].id)).removeAttribute('placeholder')
+            }
+        }
+
+        Multiplayer.prototype.getSuggestedValueForCell = function(cellItem, result) {
+            if (cellItem.processed || cellItem.disabled || cellItem.isSum) {
+                return null
+            }
+
+            switch (cellItem.rowName) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    return this.countNumberAppearance(cellItem.rowName, result)
+
+                case 'Max':
+                case 'Min':
+                    return this.countDiceSum(result)
+
+                case 'Kenta':
+                    return this.isKenta(result)
+
+                case 'Triling':
+                    return this.isTrilling(result)
+
+                case 'Ful':
+                    return this.isFull(result)
+
+                case 'Kare':
+                    return this.isKare(result)
+
+                case 'Jamb':
+                    return this.isYamb(result)
+                
+                default:
+                    return null
+            }
+        }
+
+        Multiplayer.prototype.countNumberAppearance = function(countSymbol, result) {
+
+            let count = 0
+            for (let i = 0; i < result.dice.length; i++) {
+                if (result.dice[i] == countSymbol) {
+                    count++
+                }
+            }
+
+            return countSymbol * count
+        }
+
+        Multiplayer.prototype.countDiceSum = function(result) {
+            let sum = 0
+            for (let i = 0; i < result.dice.length; i++) {
+                sum += result.dice[i]
+            }
+
+            return sum
+        }
+
+        Multiplayer.prototype.isKenta = function(result) {
+            sum = 0
+
+            kenta = ['12345', '23456']
+            diceStr = result.dice.sort().join('')
+
+            if (kenta.includes(diceStr)) {
+                isKenta = true
+                sum = 66 - ((result.handNumber - 1) * 10)
+            }
+
+            return sum
+        }
+
+        Multiplayer.prototype.isTrilling = function(result) {
+            sum = 0
+
+            maxCount = 1
+            currentCount = 1
+            dice = result.dice.sort()
+            selectedNumber = result.dice[0]
+            
+            for (i = 1; i < dice.length; i++) {
+                if (dice[i] == dice[i - 1]) {
+                    currentCount++
+                } else {
+                    
+                    if (currentCount > maxCount) {
+                        maxCount = currentCount
+                        selectedNumber = dice[i - 1]
+                    }
+
+                    currentCount = 1
+                }
+            }
+
+            if (maxCount > 2) {
+                isTrilling = true
+                sum = 3 * selectedNumber + 20
+            }
+
+            return sum
+        }
+
+        Multiplayer.prototype.isFull = function(result) {
+            sum = 0
+
+            diceFreq = [0, 0, 0, 0, 0, 0]
+            for (i = 0; i < result.dice.length; i++) {
+                diceFreq[result.dice[i]]++
+            }
+
+            max1 = 0
+            max1Index = 0
+            max2 = 0
+            max2Index = 0
+            for (i = 0; i < diceFreq.length; i ++) {
+                if (max1 < diceFreq[i]) {
+                    max1 = diceFreq[i]
+                    max1Index = i
+                }
+
+                if (max2 < diceFreq[i] && max1 != diceFreq[i] && max2 < max1) {
+                    max2 = diceFreq[i]
+                    max2Index = i
+                }
+            }
+
+
+            if (max1 < max2) {
+                max1 = max1 - max2
+                max2 += max1
+                max1 = max2 - max1
+
+                max1Index = max1Index - max2Index
+                max2Index += max1Index
+                max1Index = max2Index - max1Index
+            }
+
+            if (max1 >= 3 && max2 >= 2) {
+                isFull = true
+                sum = 3 * max1Index + 2 * max2Index + 30
+            }
+
+            return sum
+        }
+
+        Multiplayer.prototype.isKare = function(result) {
+            sum = 0
+
+            diceFreq = [0, 0, 0, 0, 0, 0]
+            for (i = 0; i < result.dice.length; i++) {
+                diceFreq[result.dice[i]]++
+            }
+
+            max = 0
+            index = 0
+            for (i = 0; i < diceFreq.length; i++) {
+                if (max < diceFreq[i]) {
+                    max = diceFreq[i]
+                    index = i
+                }
+            }
+
+            if (max >= 4) {
+                isPoker = true
+                sum = 4 * index + 40
+            }
+
+            return sum
+        }
+
+        Multiplayer.prototype.isYamb = function(result) {
+            sum = 0
+
+            diceFreq = [0, 0, 0, 0, 0, 0]
+            for (i = 0; i < result.dice.length; i++) {
+                diceFreq[result.dice[i]]++
+            }
+
+            max = 0
+            index = 0
+            for (i = 0; i < diceFreq.length; i++) {
+                if (max < diceFreq[i]) {
+                    max = diceFreq[i]
+                    index = i
+                }
+            }
+            if (max >= 5) {
+                isYamb = true
+                sum = 5 * index + 50
+            }
+
+            return sum
+        }
+
+        // ------------------------------------------------------------
+        // Utils
+        // ------------------------------------------------------------
+        Multiplayer.prototype.getCurrentPlayer = function() {
+            return players[currentPlayerId]
+        }
+
+        Multiplayer.prototype.getSelectedCell = function() {
+            return players[currentPlayerId].table[this.currentCellId]
+        }
 
 
         // ------------------------------------------------------------
@@ -556,7 +812,7 @@
                         <input class='exitButton exit--button' type='button' value='X'>
                     </div>
                     <div class='gameTab'>
-                        <div class='flex pTop10'>
+                        <div id='playWithDiceContainerId' class='flex pTop10'>
                             <span style='font-size: 1.3rem;'>Sa kockicom</span>
                             <div style='padding-left: 10px;'>
                                 <label class="switch">
@@ -568,7 +824,7 @@
                         <div id="gameTablesId" class="w100">
                         </div>
 
-                        <div class="flex w100 pTop10 itemAlignCenter">
+                        <div class="flex w100 pTop10 itemAlignCenter buttons--container">
                             <div class="flex pTop10 itemAlignCenter include--dice" include-dice='false' style="height: 50px">
                                 <input id="enterButtonId" class="w40" type="button" tabindex=-1 value="Potvrdi potez" style="border-radius: 100%; width: 100%; height: 100%; background: #6ebcff; cursor: pointer; border-radius: 16px; font-size: 2rem;">
                             </div>
@@ -579,6 +835,25 @@
                     </div>`;
         }
 
+        Multiplayer.prototype.setEnterValueButton = function() {
+            document.querySelector(".include--dice[include-dice='false']").classList.remove('hide')
+            document.querySelector(".include--dice[include-dice='true']").classList.add('hide')
+        }
+
+        Multiplayer.prototype.setRollDiceButton = function() {
+            document.querySelector(".include--dice[include-dice='false']").classList.add('hide')
+            document.querySelector(".include--dice[include-dice='true']").classList.remove('hide')
+        }
+
+        Multiplayer.prototype.disableRollDiceToggleButton = function() {
+            document.getElementById('playWithDiceContainerId').classList.add('disabled')
+        }
+
+        Multiplayer.prototype.enableRollDiceToggleButton = function() {
+            document.getElementById('playWithDiceContainerId').classList.remove('disabled')
+        }
+
+        //buttons--container
         return Multiplayer;
     })();
 

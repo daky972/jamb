@@ -67,16 +67,15 @@
             }
         }
 
+        MAX_ROLL_NUMBER = 3
         
 
         function DiceDialog(parentContext, containerId, data) {
             this.parentContext = parentContext;
-
-            
-
             this.container = document.getElementById(containerId);
             this.container.innerHTML = this.getHTML();
 
+            this.handNumber = 0
             this.rollDice = []
             for (i = 0; i < data.diceNumber; i++) {
                 this.rollDice.push(i + 1);
@@ -117,7 +116,8 @@
             }
 
             if (target.closest('.enter--result')) {
-                this.parentContext.returnDiceInfo();
+                this.parentContext.diceDialogResult(this.returnDiceInfo())
+                this.hide()
                 return
             }
 
@@ -128,10 +128,24 @@
                 } else {
                     diceWrapper.classList.add('selected')
                 }
+
+                if (document.querySelectorAll('.dice-wrapper.selected').length > 0) {
+                    document.getElementsByClassName('enter--result')[0].value = 'Upiši'
+                } else {
+                    document.getElementsByClassName('enter--result')[0].value = 'Upiši 0'
+                }
+                
             }
         }
 
         DiceDialog.prototype.roll = function() {
+
+            this.handNumber++
+            if (this.handNumber == MAX_ROLL_NUMBER) {
+                this.parentContext.diceDialogResult(this.returnDiceInfo())
+                this.hide()
+            }
+
             containerWidth = this.container.offsetWidth
             
             diceWidth = document.getElementsByClassName('dice-wrapper')[0].offsetWidth
@@ -164,10 +178,29 @@
                     diceElements[i].setAttribute('dice-selected-number', number)
                     diceElements[i].style.transform = ''
                 }    
-            }, 1500);
+            }, 500);
 
         }
 
+        DiceDialog.prototype.returnDiceInfo = function() {
+            return {
+                handNumber: this.handNumber,
+                dice: this.getSelectedDice()
+            }
+        }
+
+        DiceDialog.prototype.getSelectedDice = function() {
+            diceElements = document.getElementsByClassName('dice-wrapper')
+
+            selectedDice = []
+            for (i = 0; i < diceElements.length; i++) {
+                if (diceElements[i].classList.contains('selected')) {
+                    selectedDice.push(Number(diceElements[i].getAttribute('dice-selected-number')))
+                }
+            }
+
+            return selectedDice
+        }
 
         DiceDialog.prototype.getRandomRotation = function() {
             return Math.floor(Math.random() * 360)
