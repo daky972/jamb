@@ -69,19 +69,10 @@
 
         MAX_ROLL_NUMBER = 3
         
-
         function DiceDialog(parentContext, containerId, data) {
             this.parentContext = parentContext;
             this.container = document.getElementById(containerId);
             this.container.innerHTML = this.getHTML();
-
-            this.handNumber = 0
-            this.rollDice = []
-            for (i = 0; i < data.diceNumber; i++) {
-                this.rollDice.push(i + 1);
-            }
-
-            this.moveToNeutral()
 
             this.clickEvent = this.clickEventHandler.bind(this)
             this.container.addEventListener('click', this.clickEvent)
@@ -89,16 +80,24 @@
 
         DiceDialog.prototype.show = function() {
             document.getElementById('viewId').setAttribute('view-type', 'dialog')
+
+            this.handNumber = 0
+            this.moveToNeutral()
         }
 
         DiceDialog.prototype.hide = function() {
             document.getElementById('viewId').setAttribute('view-type', 'game')
+
+            document.getElementsByClassName('enter--result')[0].value = 'Upiši 0'
+            diceElements = document.getElementsByClassName('dice-wrapper')
+            for (i = 0; i < diceElements.length; i++) {
+                diceElements[i].classList.remove('selected')
+            }
         }
 
         DiceDialog.prototype.destroy = function() {
             this.container.removeEventListener('click', this.clickEvent)
             delete this.clickEvent
-            delete this.rollDice
         }
 
         DiceDialog.prototype.clickEventHandler = function(event) {
@@ -300,7 +299,7 @@
                                     <div class='dot' dot-number='9'></div>
                                 </div>
                             </div>
-                            <div class='dice-wrapper dice-animation'dice-order='3'>
+                            <div class='dice-wrapper dice-animation' dice-order='3'>
                                 <div class='dice-face' dice-value='1'>
                                     <div class='dot' dot-number='5'></div>
                                 </div>
